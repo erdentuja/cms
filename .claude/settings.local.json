@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:ee6ea6af-9264-46c8-af6f-f3a053d4a514.lovableproject.com)",
+      "Bash(gh repo view:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(ls:*)",
+      "Bash(python3:*)",
+      "Bash(\"c:\\\\XAMPP\\\\php\\\\php.exe\" -r:*)",
+      "Bash(\"c:\\\\XAMPP\\\\php\\\\php.exe\" -r \"\n$zip = new ZipArchive\\(\\);\n$root = ''c:/XAMPP/htdocs/cms/'';\n$backupFile = $root . ''backups/backup_2026-03-08_11-39-27.zip'';\n\nif \\($zip->open\\($backupFile\\) === true\\) {\n    // Extract core/ and admin/ files\n    for \\($i = 0; $i < $zip->numFiles; $i++\\) {\n        $name = $zip->getNameIndex\\($i\\);\n        if \\(strpos\\($name, ''core/''\\) === 0 || strpos\\($name, ''admin/''\\) === 0\\) {\n            $targetPath = $root . $name;\n            $dir = dirname\\($targetPath\\);\n            if \\(!is_dir\\($dir\\)\\) {\n                mkdir\\($dir, 0755, true\\);\n            }\n            if \\(substr\\($name, -1\\) !== ''/''\\) {\n                $content = $zip->getFromIndex\\($i\\);\n                file_put_contents\\($targetPath, $content\\);\n                echo ''Restored: '' . $name . PHP_EOL;\n            }\n        }\n    }\n    $zip->close\\(\\);\n    echo ''Done!'';\n} else {\n    echo ''Cannot open ZIP'';\n}\n\")"
+    ]
+  }
+}

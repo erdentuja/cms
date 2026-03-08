@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteBase /cms/
+
+# Ha a kérés egy létező fájl vagy mappa, ne írd át
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^blog/?$ blog.php [QSA,L]
+
+# Minden egyéb kérést az index.php-ra irányít (de NEM meglévő fájlokat/mappákat)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ index.php?route=$1 [QSA,L]
