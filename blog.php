@@ -46,6 +46,24 @@ $stmt = $db->prepare($sql);
 $stmt->execute($params);
 $posts = $stmt->fetchAll();
 
+// Kategóriák előzetes lekérése a posztokhoz (N+1 probléma elkerülése)
+$postCategoriesMap = [];
+if (!empty($posts)) {
+    $postIds = array_column($posts, 'id');
+    $placeholders = implode(',', array_fill(0, count($postIds), '?'));
+    $catSql = "SELECT pc.post_id, c.name, c.slug
+               FROM categories c
+               JOIN post_categories pc ON c.id = pc.category_id
+               WHERE pc.post_id IN ($placeholders)";
+    $catStmt = $db->prepare($catSql);
+    $catStmt->execute($postIds);
+    $allCats = $catStmt->fetchAll();
+
+    foreach ($allCats as $cat) {
+        $postCategoriesMap[$cat['post_id']][] = $cat;
+    }
+}
+
 // ---------- Kategóriák ----------
 $categories = $db->query("SELECT c.*, (SELECT COUNT(*) FROM post_categories pc JOIN posts p2 ON pc.post_id = p2.id WHERE pc.category_id = c.id AND p2.status = 'published' AND p2.post_type = 'post' AND p2.deleted_at IS NULL) as post_count FROM categories c ORDER BY c.name")->fetchAll();
 
@@ -109,9 +127,7 @@ include 'theme/header.php';
                     <div style="padding: 20px;">
                         <?php
                         // Kategóriák
-                        $postCats = $db->prepare("SELECT c.name, c.slug FROM categories c JOIN post_categories pc ON c.id = pc.category_id WHERE pc.post_id = ?");
-                        $postCats->execute([$post['id']]);
-                        $postCatList = $postCats->fetchAll();
+                        $postCatList = $postCategoriesMap[$post['id']] ?? [];
                         if ($postCatList): ?>
                             <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px;">
                                 <?php foreach ($postCatList as $pc): ?>
