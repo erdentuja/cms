@@ -250,10 +250,10 @@ CREATE TABLE `settings` (
   PRIMARY KEY (`setting_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES ('ai', '{\"deepseek_api_key\":\"sk-3e97a4d13e8c4b0ea3c7f48e5037c476\"}');
+INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES ('ai', '{\"deepseek_api_key\":\"DUMMY_API_KEY\"}');
 INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES ('design', '{\"footer_text\":\"© 2026\",\"primary_color\":\"#2563eb\"}');
 INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES ('site_info', '{\"name\":\"Saját CMS\",\"description\":\"Leírás\",\"logo\":\"logo_1772893474.jpg\"}');
-INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES ('smtp', '{\"host\":\"mail.privateemail.com\",\"user\":\"info@qfxdesign.hu\",\"pass\":\"680817-Aa\",\"port\":587,\"encryption\":\"tls\",\"from_email\":\"info@qfxdesign.hu\",\"from_name\":\"CMS Rendszer\"}');
+INSERT INTO `settings` (`setting_key`, `setting_value`) VALUES ('smtp', '{\"host\":\"mail.privateemail.com\",\"user\":\"info@qfxdesign.hu\",\"pass\":\"DUMMY_PASSWORD\",\"port\":587,\"encryption\":\"tls\",\"from_email\":\"info@qfxdesign.hu\",\"from_name\":\"CMS Rendszer\"}');
 
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
