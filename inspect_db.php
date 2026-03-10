@@ -1,5 +1,5 @@
 <?php
-require_once 'c:\XAMPP\htdocs\cms\config.php';
+require_once 'config.php';
 $tables = $db->query("SHOW TABLES")->fetchAll(PDO::FETCH_COLUMN);
 foreach ($tables as $table) {
     echo "Table: $table\n";
