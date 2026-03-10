@@ -247,7 +247,8 @@ class BackupManager
 
             // Csak azt másoljuk, amit a user kért
             if (!$restoreAll) {
-                $parts = explode(DIRECTORY_SEPARATOR, ltrim($subPathNorm, DIRECTORY_SEPARATOR));
+                $subPathUnified = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, ltrim($subPathNorm, DIRECTORY_SEPARATOR));
+                $parts = explode(DIRECTORY_SEPARATOR, $subPathUnified);
                 $topLevel = $parts[0];
                 if (!in_array($topLevel, $itemsToRestore)) {
                     continue; // Skip this file/dir as its top level folder was not selected
@@ -259,13 +260,17 @@ class BackupManager
                 continue;
             }
 
-            $target = $dest . DIRECTORY_SEPARATOR . $iterator->getSubPathname();
+            $target = rtrim($dest, '/\\') . DIRECTORY_SEPARATOR . ltrim($iterator->getSubPathname(), '/\\');
             if ($item->isDir()) {
                 if (!is_dir($target)) {
-                    mkdir($target, 0755, true);
+                    @mkdir($target, 0755, true);
                 }
             } else {
-                copy($item->getPathname(), $target);
+                $targetDir = dirname($target);
+                if (!is_dir($targetDir)) {
+                    @mkdir($targetDir, 0755, true);
+                }
+                @copy($item->getPathname(), $target);
             }
         }
     }
